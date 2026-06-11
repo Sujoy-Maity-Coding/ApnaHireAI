@@ -30,7 +30,7 @@ background: linear-gradient(
 #06b6d4
 );
 
-padding:30px;
+padding:20px;
 border-radius:25px;
 margin-bottom:20px;
 }
@@ -140,3 +140,115 @@ if menu == "🏠 Dashboard":
         "submission.csv",
         "text/csv"
     )
+elif menu == "🔍 Candidate Explorer":
+
+    st.title("🔍 Candidate Explorer")
+
+    candidate_id = st.text_input(
+        "Enter Candidate ID",
+        placeholder="CAND_0098846"
+    )
+
+    if st.button("Search Candidate"):
+
+        result = df[
+            df["candidate_id"]
+            .str.upper()
+            ==
+            candidate_id.upper()
+        ]
+
+        if result.empty:
+
+            st.error(
+                f"❌ Candidate '{candidate_id}' not found"
+            )
+
+            st.info(
+                "Please enter a valid Candidate ID"
+            )
+
+        else:
+
+            row = result.iloc[0]
+
+            c1,c2,c3 = st.columns(3)
+
+            with c1:
+                st.metric(
+                    "Rank",
+                    row["rank"]
+                )
+
+            with c2:
+                st.metric(
+                    "Score",
+                    round(row["score"],2)
+                )
+
+            with c3:
+                st.metric(
+                    "Candidate",
+                    row["candidate_id"]
+                )
+
+            st.success(
+                row["reasoning"]
+            )
+elif menu == "📊 Analytics":
+
+    st.title("📊 Ranking Analytics")
+
+    fig = px.histogram(
+        df,
+        x="score",
+        title="Score Distribution"
+    )
+
+    st.plotly_chart(
+        fig,
+        use_container_width=True
+    )
+
+    fig2 = px.bar(
+        df.head(20),
+        x="candidate_id",
+        y="score",
+        title="Top 20 Candidates"
+    )
+
+    st.plotly_chart(
+        fig2,
+        use_container_width=True
+    )
+elif menu == "ℹ️ About":
+
+    st.title("ℹ️ About ApnaHire AI")
+
+    st.markdown("""
+    ## Intelligent Candidate Discovery & Ranking Engine
+
+    ### Features
+
+    ✅ Semantic Search
+
+    ✅ Career History Analysis
+
+    ✅ Experience Matching
+
+    ✅ Behavioral Signal Scoring
+
+    ✅ Hybrid Ranking System
+
+    ### Tech Stack
+
+    - Python
+    - Pandas
+    - Plotly
+    - Streamlit
+    - Sentence Transformers
+
+    ### Team
+
+    ApnaHire
+    """)
