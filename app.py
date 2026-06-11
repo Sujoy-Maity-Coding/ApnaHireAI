@@ -7,19 +7,34 @@ st.set_page_config(
     layout="wide"
 )
 
-# Load Data
 df = pd.read_csv("submission.csv")
 
-# Header
-st.title("🤖 ApnaHire AI")
-st.subheader(
-    "Intelligent Candidate Discovery & Ranking Engine"
-)
+st.markdown("""
+<style>
+.hero {
+    background: linear-gradient(135deg,#4F46E5,#06B6D4);
+    padding:30px;
+    border-radius:20px;
+    color:white;
+}
+.metric-card {
+    background:#111827;
+    padding:15px;
+    border-radius:15px;
+}
+</style>
+""", unsafe_allow_html=True)
 
-st.markdown("---")
+st.markdown("""
+<div class='hero'>
+<h1>🤖 ApnaHire AI</h1>
+<h3>Intelligent Candidate Discovery & Ranking Engine</h3>
+</div>
+""", unsafe_allow_html=True)
 
-# Metrics
-col1, col2, col3 = st.columns(3)
+st.write("")
+
+col1,col2,col3 = st.columns(3)
 
 with col1:
     st.metric(
@@ -29,105 +44,32 @@ with col1:
 
 with col2:
     st.metric(
-        "Top Match Score",
-        round(df.iloc[0]["score"], 2)
+        "Top Score",
+        round(df["score"].max(),2)
     )
 
 with col3:
     st.metric(
-        "Ranking Engine",
-        "Active"
+        "Ranking Status",
+        "Success"
     )
 
-st.markdown("---")
+st.divider()
 
-# About
-with st.expander("📌 Solution Overview"):
+st.subheader("🏆 Top 10 Candidates")
 
-    st.write("""
-    ApnaHire AI uses:
-
-    • Semantic Search
-
-    • Career History Analysis
-
-    • Experience Matching
-
-    • Behavioral Signal Scoring
-
-    • Hybrid Ranking Engine
-
-    to identify the most relevant candidates
-    for AI engineering roles.
-    """)
-
-# Search
-st.markdown("## 🔍 Search Candidate")
-
-search = st.text_input(
-    "Search Candidate ID"
+st.dataframe(
+    df.head(10),
+    use_container_width=True
 )
 
-if search:
-
-    filtered = df[
-        df["candidate_id"]
-        .str.contains(
-            search,
-            case=False
-        )
-    ]
-
-    st.dataframe(
-        filtered,
-        use_container_width=True
-    )
-
-else:
-
-    st.markdown("## 🏆 Top Ranked Candidates")
-
-    st.dataframe(
-        df,
-        use_container_width=True,
-        height=500
-    )
-
-st.markdown("---")
-
-# Top Candidate
-st.markdown("## ⭐ Best Candidate")
-
-best = df.iloc[0]
-
-st.write(
-    f"Candidate ID: {best['candidate_id']}"
-)
-
-st.write(
-    f"Rank: {best['rank']}"
-)
-
-st.write(
-    f"Score: {round(best['score'],2)}"
-)
-
-st.write(
-    f"Reasoning: {best['reasoning']}"
-)
-
-st.markdown("---")
-
-# Download
 csv = df.to_csv(index=False)
 
 st.download_button(
-    label="⬇ Download Ranked CSV",
-    data=csv,
-    file_name="submission.csv",
-    mime="text/csv"
+    "⬇ Download Submission CSV",
+    csv,
+    "submission.csv",
+    "text/csv"
 )
 
-st.success(
-    "Ranking Completed Successfully"
-)
+st.success("Ranking Engine Running Successfully")
