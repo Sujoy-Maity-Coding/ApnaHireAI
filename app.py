@@ -195,7 +195,7 @@ elif menu == "🔍 Candidate Explorer":
             st.success(
                 row["reasoning"]
             )
-elif menu == "📊 Analytics":
+elif menu == "📈 Analytics":
 
     st.title("📊 Ranking Analytics")
 
