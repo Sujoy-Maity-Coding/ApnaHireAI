@@ -440,11 +440,9 @@ elif menu == "ℹ️ About":
 
     with col2:
         st.markdown("<span class='section-pill'>TECH STACK</span>", unsafe_allow_html=True)
-        st.markdown("<div class='card'>", unsafe_allow_html=True)
         techs = ["Python", "Pandas", "Plotly", "Streamlit", "Sentence Transformers", "Scikit-Learn"]
         badges = "".join([f"<span class='tech-badge'>{t}</span>" for t in techs])
-        st.markdown(badges, unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='card'>{badges}</div>", unsafe_allow_html=True)
 
     st.write("")
     st.markdown("""
