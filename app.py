@@ -26,10 +26,34 @@ st.markdown("""
     font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
-/* Hide default streamlit chrome */
+/* Hide default streamlit chrome (but keep sidebar toggle visible) */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
-header {visibility: hidden;}
+
+header {
+    background: transparent !important;
+}
+
+header [data-testid="stHeader"] {
+    background: transparent !important;
+}
+
+/* Make sure the sidebar collapse/expand arrow stays visible & styled */
+button[data-testid="stSidebarCollapseButton"],
+button[data-testid="baseButton-headerNoPadding"],
+[data-testid="collapsedControl"] {
+    visibility: visible !important;
+    display: flex !important;
+    color: #f1f5f9 !important;
+    background: rgba(255,255,255,0.06) !important;
+    border-radius: 10px !important;
+}
+
+[data-testid="collapsedControl"] svg,
+button[data-testid="stSidebarCollapseButton"] svg {
+    fill: #f1f5f9 !important;
+    color: #f1f5f9 !important;
+}
 
 /* ---------- SIDEBAR ---------- */
 section[data-testid="stSidebar"] {
